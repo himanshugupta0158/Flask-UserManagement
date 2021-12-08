@@ -16,7 +16,7 @@ app.config['SECRET_KEY'] = '5776ca5151016c5a9198bb1d95a09e0e'
 # connecting to sqlalchemy db
 
 # below is db connection path
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///UserManagement.db'
 
 # below is db variable for using db operation and creating tables in db.
 db = SQLAlchemy(app)
@@ -31,9 +31,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-
-UPLOAD_FOLDER ='static/img'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 from app import routes
