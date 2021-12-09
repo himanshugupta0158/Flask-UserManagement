@@ -6,10 +6,12 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from os.path import join, dirname, realpath
 from flask_mail import Mail
+
 import os
 
 app = Flask(__name__)
 
+# below can be set in environment variable of windows and other
 app.config['SECRET_KEY'] = '5776ca5151016c5a9198bb1d95a09e0e'
 
 # connection postgres db to flask
@@ -31,12 +33,12 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
 # setting login view here
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
 
@@ -44,6 +46,14 @@ app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
 mail = Mail(app)
 
 
+from app.users.routes import users
+from app.posts.routes import posts
+from app.main.routes import main
+from app.errors.handlers import errors
+
+app.register_blueprint(users)
+app.register_blueprint(posts)
+app.register_blueprint(main)
+app.register_blueprint(errors)
 
 
-from app import routes
